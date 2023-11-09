@@ -1,3 +1,8 @@
+#Required extensions to be installed on VS CODE
+VSCODE PLUGINS-
+•	HashiCorp Terraform 
+•	Terraform doc snippets.
+•	Terraform 
 # Terraform--Load-Balancer-
 Creating a Load balancer using Terraform
 
