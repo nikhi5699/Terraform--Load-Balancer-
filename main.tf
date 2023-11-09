@@ -1,10 +1,11 @@
+#Launching a VPC
 resource "aws_vpc" "main" {
   cidr_block = var.cidr
   tags = {
     Name="vpc-1"
   }
 }
-#Launching Subnets
+#Launching 2 Subnet's
 resource "aws_subnet" "subnet1" {
     vpc_id = aws_vpc.main.id
     cidr_block = "10.0.0.0/24"
@@ -25,12 +26,14 @@ resource "aws_subnet" "subnet2" {
     Name="subnet-2"
   }
 }
+#Launching Internet Gateway
 resource "aws_internet_gateway" "itgw" {
     vpc_id = aws_vpc.main.id
     tags = {
     Name="igw-1"
   }
 }
+#Launching Route Table
 resource "aws_route_table" "rt1" {
 vpc_id = aws_vpc.main.id
 route {
@@ -43,6 +46,7 @@ tags ={
     }
   
 }
+#Launching RT associations
 resource "aws_route_table_association" "rta1" {
     subnet_id = aws_subnet.subnet1.id
     route_table_id = aws_route_table.rt1.id
@@ -54,6 +58,7 @@ resource "aws_route_table_association" "rta2" {
     route_table_id = aws_route_table.rt1.id
   
 }
+#Craeting a SG which allows HTTP and SSH traffic from Internet
 resource "aws_security_group" "sg1" {
   name        = "allow_tls"
   description = "Allow HTTP inbound traffic"
@@ -93,7 +98,7 @@ resource "aws_s3_bucket" "example" {
 
 }
 
-
+#Launching Instances 
 resource "aws_instance" "instance1" {
     ami = "ami-0fc5d935ebf8bc3bc"
     instance_type ="t2.micro"
@@ -116,6 +121,7 @@ resource "aws_instance" "instance2" {
       Name="Instance-2"
     }
 }
+#Creating an Application LB
 resource "aws_lb" "lb-1" {
   name               = "lb-1"
   internal           = false
@@ -125,12 +131,9 @@ resource "aws_lb" "lb-1" {
 
   enable_deletion_protection = true
 
-#   access_logs {
-#     bucket  = aws_s3_bucket.lb_logs.id
-#     prefix  = "test-lb"
-#     enabled = true
-#   }
+
 }
+#Creating a Target-Group
 resource "aws_lb_target_group" "tg1" {
     name = "tg1"
     port = 80
@@ -153,6 +156,7 @@ resource "aws_lb_target_group_attachment" "tg-attach2" {
      target_id = aws_instance.instance2.id
      port  =80
 }
+#Creating a Listener 
 resource "aws_lb_listener" "listner" {
     load_balancer_arn = aws_lb.lb-1.arn
     port =80
