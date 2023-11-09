@@ -5,7 +5,7 @@ This repository consists of terraform files used to create a VPC,2 Subnets(both 
 
 Configure your AWS account using "aws configure" 
 
-Use following commands to execute the Terraform files-
+Use following Terraform commands to execute the files-
 
 1)terraform init -to initialize the plugins.
 
