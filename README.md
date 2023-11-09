@@ -1,6 +1,7 @@
 # Terraform--Load-Balancer-
 Creating a Load balancer using Terraform
-This repository consists of terraform files used to create 1 VPC,2 Subnets(both inside that VPC),2 instances(one in each subnet),1 Application LB,Target Group which has 2 instances in it.
+
+This repository consists of terraform files used to create a VPC,2 Subnets(both inside that VPC),2 instances(one in each subnet),an Application Load Balancer,Target Group which has 2 instances in it.
 
 Configure your AWS account using "aws configure" 
 
